@@ -23,6 +23,7 @@ if uploaded_file is not None:
     y, sr = librosa.load(audio_path)
 
     # Beat detection
+try:
     tempo, beats = librosa.beat.beat_track(y=y, sr=sr)
     beat_times = librosa.frames_to_time(beats, sr=sr)
 
@@ -38,3 +39,7 @@ if uploaded_file is not None:
     st.pyplot(fig)
 
     st.caption("Red lines show the estimated beats in the track.")
+
+except Exception as e:
+    st.error("⚠️ Beat detection failed. Make sure you're uploading a valid audio file.")
+    st.exception(e)
