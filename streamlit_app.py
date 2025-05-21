@@ -28,7 +28,7 @@ try:
     beat_times = librosa.frames_to_time(beats, sr=sr)
 
     # Show tempo
-    st.success(f"Estimated Tempo: {tempo:.2f} BPM")
+    st.success(f"Estimated Tempo: {float(tempo):.2f} BPM"))
 
     # Plot waveform with beat markers
     fig, ax = plt.subplots(figsize=(10, 4))
