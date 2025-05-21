@@ -8,7 +8,7 @@ import io
 
 st.set_page_config(page_title="🎵 Beat Detection Prototype", layout="centered")
 
-st.title("🎵 Beat Detection with Audio & Spectrogram")
+st.title("🎵 Beat Detection & Tempo Estimation with Audio & Spectrogram")
 st.markdown("""
 Upload a short audio file (.wav or .mp3) to:
 - **Estimate the tempo (BPM)**
