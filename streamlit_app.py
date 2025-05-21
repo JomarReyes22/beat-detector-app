@@ -70,12 +70,6 @@ if uploaded_file:
     except Exception as e:
         st.error("❌ Beat detection failed. Try a different audio clip.")
         st.exception(e)
-as st
-import librosa
-import librosa.display
-import matplotlib.pyplot as plt
-import numpy as np
-import tempfile
 
 st.title("🎵 Beat Detection & Tempo Estimation")
 
