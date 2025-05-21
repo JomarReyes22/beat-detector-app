@@ -27,10 +27,8 @@ try:
     tempo, beats = librosa.beat.beat_track(y=y, sr=sr)
     beat_times = librosa.frames_to_time(beats, sr=sr)
 
-    # Show tempo
-    st.success(f"Estimated Tempo: {float(tempo):.2f} BPM"))
+    st.success(f"Estimated Tempo: {float(tempo):.2f} BPM")
 
-    # Plot waveform with beat markers
     fig, ax = plt.subplots(figsize=(10, 4))
     librosa.display.waveshow(y, sr=sr, alpha=0.6, ax=ax)
     ax.vlines(beat_times, -1, 1, color='r', linestyle='--', label='Beats')
