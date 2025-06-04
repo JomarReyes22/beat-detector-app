@@ -71,24 +71,12 @@ if uploaded_file:
     y = y_perc
     y, _ = librosa.effects.trim(y)
 
-    # --- Autocorrelation-based BPM Detection ---
+    # --- Tempo estimation using onset envelope ---
     o_env = librosa.onset.onset_strength(y=y, sr=sr)
-    tempogram = librosa.feature.tempogram(onset_envelope=o_env, sr=sr)
-    ac = librosa.autocorrelate(o_env, max_size=tempogram.shape[1])
-    lags = librosa.frames_to_time(np.arange(len(ac)), sr=sr)
-    bpms = 60.0 / lags
+    tempo = librosa.beat.tempo(onset_envelope=o_env, sr=sr, aggregate=np.median, max_tempo=200)[0]
 
-    # --- Clean and validate ---
-    valid = (bpms > 60) & (bpms < 180) & np.isfinite(bpms)
-    bpms = bpms[valid]
-    ac = ac[:len(valid)][valid]
-
-    if len(bpms) > 0:
-        tempo = bpms[np.argmax(ac)]
-        st.markdown(f"<h3>✅ Estimated Tempo: {float(tempo):.2f} BPM</h3>", unsafe_allow_html=True)
-    else:
-        tempo = None
-        st.warning("⚠️ Could not detect a reliable tempo.")
+    # --- Show Estimated Tempo ---
+    st.markdown(f"<h3>✅ Estimated Tempo: {tempo:.2f} BPM</h3>", unsafe_allow_html=True)
 
     # --- Beat detection for timestamps/visuals ---
     tempo_alt, beat_frames = librosa.beat.beat_track(y=y, sr=sr)
