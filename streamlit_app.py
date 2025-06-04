@@ -72,11 +72,17 @@ if uploaded_file:
 
         st.markdown(f"<h3>✅ Estimated Tempo: {float(tempo):.2f} BPM</h3>", unsafe_allow_html=True)
 
-        # Waveform
+        # --- Filter beat markers (min 0.3s apart) ---
+        filtered_beat_times = [beat_times[0]]
+        for t in beat_times[1:]:
+            if t - filtered_beat_times[-1] > 0.3:
+                filtered_beat_times.append(t)
+
+        # --- Waveform Plot with Clean Beat Markers ---
         st.markdown("### 📈 Waveform with Beat Markers")
         fig1, ax1 = plt.subplots(figsize=(10, 4))
         librosa.display.waveshow(y, sr=sr, alpha=0.6, ax=ax1)
-        ax1.vlines(beat_times, -1, 1, color='r', linestyle='--', label='Beats')
+        ax1.vlines(filtered_beat_times, -0.5, 0.5, color='r', linestyle='--', label='Filtered Beats')
         ax1.set(title="Waveform")
         ax1.legend()
         st.pyplot(fig1)
