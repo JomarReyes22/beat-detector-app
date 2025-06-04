@@ -77,20 +77,25 @@ if uploaded_file:
         for t in beat_times[1:]:
             if t - filtered_beat_times[-1] > 0.3:
                 filtered_beat_times.append(t)
-
-        # --- Waveform Plot with Phrase Meter-style Gradient Bars ---
+        
+        # --- Waveform Plot with Phrase Meters ---
         st.markdown("### 📈 Waveform with Phrase-style Beat Markers")
         fig1, ax1 = plt.subplots(figsize=(10, 4))
         librosa.display.waveshow(y, sr=sr, alpha=0.6, ax=ax1)
-
-        # Phrase-style color-coded beat bars
-        colors = ['#ff4f87', '#ff9f4f', '#ffd84f', '#b4ff4f', '#4fffc6']  # Feel free to customize
-        for i, t in enumerate(filtered_beat_times):
-            ax1.axvspan(t - 0.05, t + 0.05, color=colors[i % len(colors)], alpha=0.35, zorder=2)
-
+        
+        # Phrase Markers every 4 beats (like 4/4 time signature)
+        from matplotlib import cm
+        colormap = cm.get_cmap('plasma')  # You can change to 'viridis', 'cool', 'inferno'
+        
+        for i in range(0, len(filtered_beat_times), 4):  # Every 4 beats
+            t = filtered_beat_times[i]
+            color = colormap(i / len(filtered_beat_times))  # smooth gradient
+            ax1.axvspan(t - 0.05, t + 0.05, color=color, alpha=0.35, zorder=2)
+    
         ax1.set(title="Waveform")
-        ax1.legend(["Phrase Markers"], loc="upper right")
+        ax1.legend(["Phrase Meters"], loc="upper right")
         st.pyplot(fig1)
+
 
         # Spectrogram
         st.markdown("### 🌈 Spectrogram")
