@@ -12,15 +12,15 @@ st.set_page_config(page_title="🎷 Beat Detection", layout="centered")
 # -- Custom CSS for Style --
 st.markdown("""
 <style>
-body {
-    background-color: #0f0f0f;
-    color: #eeeeee;
-    font-family: 'Segoe UI', sans-serif;
+.stApp {
     background-image: url("https://i.imgur.com/l4KzGnw.png");
     background-repeat: repeat;
     background-size: 80px;
     background-attachment: fixed;
     background-position: center;
+    background-color: #0f0f0f;
+    color: #eeeeee;
+    font-family: 'Segoe UI', sans-serif;
 }
 h1, h2, h3 {
     color: #00ffe0;
