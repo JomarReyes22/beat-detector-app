@@ -64,7 +64,15 @@ if uploaded_file:
         tmp.write(uploaded_file.read())
         audio_path = tmp.name
 
-    y, sr = librosa.load(audio_path)
+    # Load audio
+    y_full, sr = librosa.load(audio_path)
+
+    # Apply harmonic-percussive separation
+    y_harm, y_perc = librosa.effects.hpss(y_full)
+
+    # Use only the percussive signal for beat detection
+    y = y_perc
+    y, _ = librosa.effects.trim(y)
 
     try:
         tempo, beat_frames = librosa.beat.beat_track(y=y, sr=sr)
