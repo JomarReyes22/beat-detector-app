@@ -76,18 +76,20 @@ if uploaded_file:
         filtered_beat_times = [beat_times[0]]
         for t in beat_times[1:]:
             if t - filtered_beat_times[-1] > 0.3:
-                filtered_beat_times.append(t)
+            filtered_beat_times.append(t)
 
-        # --- Waveform Plot with Clean Beat Markers ---
-        st.markdown("### 📈 Waveform with Beat Markers")
+        # --- Waveform Plot with Phrase Meter-style Gradient Bars ---
+        st.markdown("### 📈 Waveform with Phrase-style Beat Markers")
         fig1, ax1 = plt.subplots(figsize=(10, 4))
         librosa.display.waveshow(y, sr=sr, alpha=0.6, ax=ax1)
-        # Styled beat markers
-        ax1.vlines(filtered_beat_times, -0.4, 0.4, color='#00ffc6', linewidth=2, label='Beat Lines')
-        ax1.scatter(filtered_beat_times, np.zeros_like(filtered_beat_times),
-            color='#ff4f87', s=50, label='Beat Dots', zorder=3)
+
+        # Phrase-style color-coded beat bars
+        colors = ['#ff4f87', '#ff9f4f', '#ffd84f', '#b4ff4f', '#4fffc6']  # Feel free to customize
+        for i, t in enumerate(filtered_beat_times):
+            ax1.axvspan(t - 0.05, t + 0.05, color=colors[i % len(colors)], alpha=0.35, zorder=2)
+
         ax1.set(title="Waveform")
-        ax1.legend()
+        ax1.legend(["Phrase Markers"], loc="upper right")
         st.pyplot(fig1)
 
         # Spectrogram
