@@ -5,24 +5,15 @@ import matplotlib.pyplot as plt
 import numpy as np
 import tempfile
 import matplotlib.patches as patches
-import base64
 
 # -- Page Settings --
 st.set_page_config(page_title="🎷 Beat Detection", layout="centered")
 
-# -- Background Image Utility --
-def get_base64_bg(file_path):
-    with open(file_path, "rb") as image_file:
-        encoded = base64.b64encode(image_file.read()).decode()
-    return f"data:image/png;base64,{encoded}"
-
-bg_image = get_base64_bg("/mount/data/aa2d1d72-0af6-44e5-9c50-daed21417f81.png")
-
-# -- Custom CSS for Style --
-st.markdown(f"""
+# -- Custom CSS for Style with Public Music Icon Background --
+st.markdown("""
 <style>
-.stApp {{
-    background-image: url("{bg_image}");
+.stApp {
+    background-image: url("https://i.imgur.com/Wo7bWtr.png");
     background-repeat: repeat;
     background-size: 80px;
     background-attachment: fixed;
@@ -30,32 +21,32 @@ st.markdown(f"""
     background-color: #0f0f0f;
     color: #eeeeee;
     font-family: 'Segoe UI', sans-serif;
-}}
-h1, h2, h3 {{
+}
+h1, h2, h3 {
     color: #00ffe0;
     text-align: center;
     text-shadow: 0 0 10px #00ffe0;
-}}
-hr {{
+}
+hr {
     border: 1px solid #444;
-}}
-.container {{
+}
+.container {
     background-color: #1a1a1a;
     padding: 20px;
     border-radius: 15px;
     box-shadow: 0 0 15px rgba(0,255,200,0.15);
-}}
-.card {{
+}
+.card {
     background-color: #222;
     padding: 15px;
     border-radius: 10px;
     margin-bottom: 20px;
-}}
-.upload-label {{
+}
+.upload-label {
     font-size: 18px;
     color: #00ffc6;
     text-align: center;
-}}
+}
 </style>
 """, unsafe_allow_html=True)
 
