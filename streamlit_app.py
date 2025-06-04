@@ -77,11 +77,9 @@ if uploaded_file:
     ac = librosa.autocorrelate(o_env, max_size=tempogram.shape[1])
     lags = librosa.frames_to_time(np.arange(len(ac)), sr=sr)
     bpms = 60.0 / lags
-    bpms = bpms[np.isfinite(bpms)]
-    valid = (bpms > 60) & (bpms < 180)
+    valid = (bpms > 60) & (bpms < 180) & np.isfinite(bpms)
     bpms = bpms[valid]
-    ac = ac[valid]
-    tempo = bpms[np.argmax(ac)]
+    ac = ac[:len(valid)][valid]  # match length safely
 
     # --- Show Estimated Tempo ---
     st.markdown(f"<h3>✅ Estimated Tempo: {float(tempo):.2f} BPM</h3>", unsafe_allow_html=True)
