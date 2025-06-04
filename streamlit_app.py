@@ -87,7 +87,7 @@ if uploaded_file:
         from matplotlib import cm
         colormap = cm.get_cmap('plasma')  # You can change to 'viridis', 'cool', 'inferno'
         
-        for i in range(0, len(filtered_beat_times), 4):  # Every 4 beats
+        for i in range(0, len(filtered_beat_times), 4):  # ← every 4 beats only
             t = filtered_beat_times[i]
             color = colormap(i / len(filtered_beat_times))  # smooth gradient
             ax1.axvspan(t - 0.05, t + 0.05, color=color, alpha=0.35, zorder=2)
