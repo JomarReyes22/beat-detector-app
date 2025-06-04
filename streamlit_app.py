@@ -71,19 +71,23 @@ if uploaded_file:
     y = y_perc
     y, _ = librosa.effects.trim(y)
 
-    # --- Beat detection ---
-    tempo, beat_frames = librosa.beat.beat_track(y=y, sr=sr)
-
-    # --- Optional: Auto-correct doubled BPM ---
-    st.markdown("### ⚙️ Tempo Correction Settings")
-    auto_correct = st.checkbox("🛠 Auto-correct doubled BPM (if over 130)", value=True)
-    if auto_correct and tempo > 130:
-        tempo = tempo / 2
+    # --- Autocorrelation-based BPM Detection ---
+    o_env = librosa.onset.onset_strength(y=y, sr=sr)
+    tempogram = librosa.feature.tempogram(onset_envelope=o_env, sr=sr)
+    ac = librosa.autocorrelate(o_env, max_size=tempogram.shape[1])
+    lags = librosa.frames_to_time(np.arange(len(ac)), sr=sr)
+    bpms = 60.0 / lags
+    bpms = bpms[np.isfinite(bpms)]
+    valid = (bpms > 60) & (bpms < 180)
+    bpms = bpms[valid]
+    ac = ac[valid]
+    tempo = bpms[np.argmax(ac)]
 
     # --- Show Estimated Tempo ---
     st.markdown(f"<h3>✅ Estimated Tempo: {float(tempo):.2f} BPM</h3>", unsafe_allow_html=True)
 
-    # --- Filter beat markers (min 0.3s apart) ---
+    # --- Beat detection for timestamps/visuals ---
+    tempo_alt, beat_frames = librosa.beat.beat_track(y=y, sr=sr)
     beat_times = librosa.frames_to_time(beat_frames, sr=sr)
     filtered_beat_times = [beat_times[0]]
     for t in beat_times[1:]:
@@ -94,7 +98,6 @@ if uploaded_file:
     st.markdown("### 📈 Waveform with DAW-style Beat Markers")
     fig1, ax1 = plt.subplots(figsize=(10, 4))
     librosa.display.waveshow(y, sr=sr, alpha=0.6, ax=ax1)
-
     for i in range(0, len(filtered_beat_times), 4):
         t = filtered_beat_times[i]
         ax1.vlines(t, -1.1, 1.1, color='#D9534F', linestyle='dotted', linewidth=1.5)
@@ -102,7 +105,6 @@ if uploaded_file:
                                           color='#D9534F', zorder=5)
         ax1.add_patch(triangle)
         ax1.add_patch(patches.Rectangle((t - 0.05, -1.2), 0.1, 0.08, color='#D9534F', alpha=0.5))
-
     ax1.set(title="Waveform")
     ax1.set_ylim([-1.3, 1.2])
     ax1.legend(["Beat Markers"], loc="upper right")
