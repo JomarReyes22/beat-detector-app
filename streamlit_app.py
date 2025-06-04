@@ -1,4 +1,4 @@
-import streamlit as st
+import streamlit as stMore actions
 import librosa
 import librosa.display
 import matplotlib.pyplot as plt
@@ -9,17 +9,18 @@ import matplotlib.patches as patches
 # -- Page Settings --
 st.set_page_config(page_title="🎷 Beat Detection", layout="centered")
 
-# -- Fallback CSS with reliable hosted background image --
+# -- Custom CSS for Style --
 st.markdown("""
 <style>
-.stApp {
-    background-image: url("https://cdn.pixabay.com/photo/2016/11/22/23/44/music-1850693_960_720.png");
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-attachment: fixed;
+body {
     background-color: #0f0f0f;
     color: #eeeeee;
     font-family: 'Segoe UI', sans-serif;
+    background-image: url("https://i.imgur.com/l4KzGnw.png");
+    background-repeat: repeat;
+    background-size: 80px;
+    background-attachment: fixed;
+    background-position: center;
 }
 h1, h2, h3 {
     color: #00ffe0;
