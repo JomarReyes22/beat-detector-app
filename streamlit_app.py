@@ -12,7 +12,7 @@ st.set_page_config(page_title="🎷 Beat Detection", layout="centered")
 # -- Custom CSS for Style --
 st.markdown("""
 <style>
-stApp {
+.stApp {
     background-color: #0f0f0f;
     color: #eeeeee;
     font-family: 'Segoe UI', sans-serif;
