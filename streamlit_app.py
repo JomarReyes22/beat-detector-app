@@ -76,7 +76,7 @@ if uploaded_file:
         filtered_beat_times = [beat_times[0]]
         for t in beat_times[1:]:
             if t - filtered_beat_times[-1] > 0.3:
-            filtered_beat_times.append(t)
+                filtered_beat_times.append(t)
 
         # --- Waveform Plot with Phrase Meter-style Gradient Bars ---
         st.markdown("### 📈 Waveform with Phrase-style Beat Markers")
