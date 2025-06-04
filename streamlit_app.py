@@ -86,8 +86,8 @@ if uploaded_file:
         if t - filtered_beat_times[-1] > 0.3:
             filtered_beat_times.append(t)
 
-    # --- Waveform Plot with DAW-style Beat Markers ---
-    st.markdown("### 📈 Waveform with DAW-style Beat Markers")
+    # --- Waveform Plot with Beat Markers ---
+    st.markdown("### 📈 Waveform with Beat Markers")
     fig1, ax1 = plt.subplots(figsize=(10, 4))
     librosa.display.waveshow(y, sr=sr, alpha=0.6, ax=ax1)
     for i in range(0, len(filtered_beat_times), 4):
