@@ -16,6 +16,11 @@ body {
     background-color: #0f0f0f;
     color: #eeeeee;
     font-family: 'Segoe UI', sans-serif;
+    background-image: url("https://i.imgur.com/l4KzGnw.png");
+    background-repeat: repeat;
+    background-size: 80px;
+    background-attachment: fixed;
+    background-position: center;
 }
 h1, h2, h3 {
     color: #00ffe0;
