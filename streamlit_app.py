@@ -82,7 +82,7 @@ if uploaded_file:
         st.markdown("### 📈 Waveform with Beat Markers")
         fig1, ax1 = plt.subplots(figsize=(10, 4))
         librosa.display.waveshow(y, sr=sr, alpha=0.6, ax=ax1)
-        ax1.vlines(filtered_beat_times, -0.5, 0.5, color='r', linestyle='--', label='Filtered Beats')
+        ax1.vlines(filtered_beat_times, -0.3, 0.3, color='r', linestyle='--', label='Filtered Beats')
         ax1.set(title="Waveform")
         ax1.legend()
         st.pyplot(fig1)
