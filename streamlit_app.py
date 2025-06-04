@@ -90,9 +90,6 @@ if uploaded_file:
         tempo = None
         st.warning("⚠️ Could not detect a reliable tempo.")
 
-    # --- Show Estimated Tempo ---
-    st.markdown(f"<h3>✅ Estimated Tempo: {float(tempo):.2f} BPM</h3>", unsafe_allow_html=True)
-
     # --- Beat detection for timestamps/visuals ---
     tempo_alt, beat_frames = librosa.beat.beat_track(y=y, sr=sr)
     beat_times = librosa.frames_to_time(beat_frames, sr=sr)
