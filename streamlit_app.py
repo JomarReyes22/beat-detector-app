@@ -12,11 +12,11 @@ st.set_page_config(page_title="🎷 Beat Detection", layout="centered")
 # -- Custom CSS for Style --
 st.markdown("""
 <style>
-body {
+stApp {
     background-color: #0f0f0f;
     color: #eeeeee;
     font-family: 'Segoe UI', sans-serif;
-    background-image: url("https://i.imgur.com/l4KzGnw.png");
+    background-image: url("https://cdn.pixabay.com/photo/2016/03/27/22/16/music-1285165_960_720.jpg");
     background-repeat: repeat;
     background-size: 80px;
     background-attachment: fixed;
