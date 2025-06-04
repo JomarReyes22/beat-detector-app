@@ -78,22 +78,30 @@ if uploaded_file:
             if t - filtered_beat_times[-1] > 0.3:
                 filtered_beat_times.append(t)
         
-        # --- Waveform Plot with Phrase Meters ---
-        st.markdown("### 📈 Waveform with Phrase-style Beat Markers")
+        # --- Waveform Plot with DAW-style Beat Markers ---
+        st.markdown("### 📈 Waveform with DAW-style Beat Markers")
+        import matplotlib.patches as patches
+
         fig1, ax1 = plt.subplots(figsize=(10, 4))
         librosa.display.waveshow(y, sr=sr, alpha=0.6, ax=ax1)
-        
-        # Phrase Markers every 4 beats (like 4/4 time signature)
-        from matplotlib import cm
-        colormap = cm.get_cmap('plasma')  # You can change to 'viridis', 'cool', 'inferno'
-        
-        for i in range(0, len(filtered_beat_times), 4):  # ← every 4 beats only
+
+        for i in range(0, len(filtered_beat_times), 4):  # Phrase-like grouping
             t = filtered_beat_times[i]
-            color = colormap(i / len(filtered_beat_times))  # smooth gradient
-            ax1.axvspan(t - 0.05, t + 0.05, color=color, alpha=0.35, zorder=2)
-    
+
+            # Dotted vertical line
+            ax1.vlines(t, -1.1, 1.1, color='#D9534F', linestyle='dotted', linewidth=1.5)
+
+            # Triangle beat marker at top
+            triangle = patches.RegularPolygon((t, 1.15), numVertices=3, radius=0.03, orientation=np.pi,
+                                              color='#D9534F', zorder=5)
+            ax1.add_patch(triangle)
+
+            # Optional rectangle block at the bottom
+            ax1.add_patch(patches.Rectangle((t - 0.05, -1.2), 0.1, 0.08, color='#D9534F', alpha=0.5))
+
         ax1.set(title="Waveform")
-        ax1.legend(["Phrase Meters"], loc="upper right")
+        ax1.set_ylim([-1.3, 1.2])
+        ax1.legend(["Beat Markers"], loc="upper right")
         st.pyplot(fig1)
 
 
