@@ -13,7 +13,8 @@ st.set_page_config(page_title="🎷 Beat Detection", layout="centered")
 st.markdown("""
 <style>
 .stApp {
-    background-image: url("https://i.imgur.com/Wo7bWtr.png");
+    background-color: #0f0f0f;
+    background-image: url("https://www.transparenttextures.com/patterns/music-sheet.png");
     background-repeat: repeat;
     background-size: 80px;
     background-attachment: fixed;
