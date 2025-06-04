@@ -85,7 +85,7 @@ if uploaded_file:
         # Styled beat markers
         ax1.vlines(filtered_beat_times, -0.4, 0.4, color='#00ffc6', linewidth=2, label='Beat Lines')
         ax1.plot(filtered_beat_times, np.zeros_like(filtered_beat_times), 'o', 
-         color='#ff4f87', markersize=6, label='Beat Dots')
+         color='#ff4f87', markersize=10, alpha=0.8, label='Beat Dots')
         ax1.set(title="Waveform")
         ax1.legend()
         st.pyplot(fig1)
