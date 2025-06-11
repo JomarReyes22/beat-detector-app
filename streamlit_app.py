@@ -80,12 +80,13 @@ if uploaded_file:
     o_env = librosa.onset.onset_strength(y=y, sr=sr)
     raw_tempo = librosa.beat.tempo(onset_envelope=o_env, sr=sr, aggregate=np.median, max_tempo=200)[0]
 
-    # --- Correct tempo if likely double ---
-    likely_tempo = raw_tempo
-    if raw_tempo > 150:
+    # --- Smarter tempo correction ---
+    if 155 < raw_tempo < 165:
         likely_tempo = raw_tempo / 2
+    else:
+        likely_tempo = raw_tempo
 
-    # --- Show Corrected True Tempo Only ---
+    # --- Show True Estimated Tempo Only ---
     st.markdown(f"<h3>✅ Estimated Tempo: {likely_tempo:.2f} BPM</h3>", unsafe_allow_html=True)
 
     # --- Beat detection for timestamps/visuals ---
