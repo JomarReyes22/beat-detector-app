@@ -85,10 +85,8 @@ if uploaded_file:
     if raw_tempo > 150:
         likely_tempo = raw_tempo / 2
 
-    # --- Show Estimated Tempo ---
-    st.markdown(f"<h3>✅ Estimated Tempo: {raw_tempo:.2f} BPM</h3>", unsafe_allow_html=True)
-    if likely_tempo != raw_tempo:
-        st.markdown(f"<h4 style='color: gray;'>⬆️ Likely True Tempo (half-time): {likely_tempo:.2f} BPM</h4>", unsafe_allow_html=True)
+    # --- Show Corrected True Tempo Only ---
+    st.markdown(f"<h3>✅ Estimated Tempo: {likely_tempo:.2f} BPM</h3>", unsafe_allow_html=True)
 
     # --- Beat detection for timestamps/visuals ---
     tempo_alt, beat_frames = librosa.beat.beat_track(y=y, sr=sr)
