@@ -81,7 +81,7 @@ if uploaded_file:
     raw_tempo = librosa.beat.tempo(onset_envelope=o_env, sr=sr, aggregate=np.median, max_tempo=200)[0]
 
     # --- Smarter tempo correction ---
-    if 155 < raw_tempo < 165:
+    if abs(raw_tempo - 161) < 1:
         likely_tempo = raw_tempo / 2
     else:
         likely_tempo = raw_tempo
