@@ -78,19 +78,13 @@ if uploaded_file:
 
     # --- Tempo estimation using onset envelope ---
     o_env = librosa.onset.onset_strength(y=y, sr=sr)
-    raw_tempo = librosa.beat.tempo(onset_envelope=o_env, sr=sr, aggregate=np.median, max_tempo=200)[0]
+    estimated_tempo = librosa.beat.tempo(onset_envelope=o_env, sr=sr, aggregate=np.median, max_tempo=240)[0]
 
-    # --- Smarter tempo correction ---
-    if abs(raw_tempo - 161) < 1:
-        likely_tempo = raw_tempo / 2
-    else:
-        likely_tempo = raw_tempo
-
-    # --- Show True Estimated Tempo Only ---
-    st.markdown(f"<h3>✅ Estimated Tempo: {likely_tempo:.2f} BPM</h3>", unsafe_allow_html=True)
+    # --- Show the exact detected tempo ---
+    st.markdown(f"<h3>✅ Estimated Tempo: {estimated_tempo:.2f} BPM</h3>", unsafe_allow_html=True)
 
     # --- Beat detection for timestamps/visuals ---
-    tempo_alt, beat_frames = librosa.beat.beat_track(y=y, sr=sr)
+    _, beat_frames = librosa.beat.beat_track(y=y, sr=sr)
     beat_times = librosa.frames_to_time(beat_frames, sr=sr)
     filtered_beat_times = [beat_times[0]]
     for t in beat_times[1:]:
