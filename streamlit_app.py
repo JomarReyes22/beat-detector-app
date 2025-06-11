@@ -78,10 +78,17 @@ if uploaded_file:
 
     # --- Tempo estimation using onset envelope ---
     o_env = librosa.onset.onset_strength(y=y, sr=sr)
-    tempo = librosa.beat.tempo(onset_envelope=o_env, sr=sr, aggregate=np.median, max_tempo=200)[0]
+    raw_tempo = librosa.beat.tempo(onset_envelope=o_env, sr=sr, aggregate=np.median, max_tempo=200)[0]
+
+    # --- Correct tempo if likely double ---
+    likely_tempo = raw_tempo
+    if raw_tempo > 150:
+        likely_tempo = raw_tempo / 2
 
     # --- Show Estimated Tempo ---
-    st.markdown(f"<h3>✅ Estimated Tempo: {tempo:.2f} BPM</h3>", unsafe_allow_html=True)
+    st.markdown(f"<h3>✅ Estimated Tempo: {raw_tempo:.2f} BPM</h3>", unsafe_allow_html=True)
+    if likely_tempo != raw_tempo:
+        st.markdown(f"<h4 style='color: gray;'>⬆️ Likely True Tempo (half-time): {likely_tempo:.2f} BPM</h4>", unsafe_allow_html=True)
 
     # --- Beat detection for timestamps/visuals ---
     tempo_alt, beat_frames = librosa.beat.beat_track(y=y, sr=sr)
@@ -92,7 +99,7 @@ if uploaded_file:
             filtered_beat_times.append(t)
 
     # --- Waveform Plot with DAW-style Beat Markers ---
-    st.markdown("### 📈 Waveform with DAW-style Beat Markers")
+    st.markdown("### 📊 Waveform with Beat Markers")
     fig1, ax1 = plt.subplots(figsize=(10, 4))
     librosa.display.waveshow(y, sr=sr, alpha=0.6, ax=ax1)
     for i in range(0, len(filtered_beat_times), 4):
@@ -118,10 +125,10 @@ if uploaded_file:
     st.pyplot(fig2)
 
     # --- Download Timestamps ---
-    st.markdown("### 📤 Export Beat Times")
+    st.markdown("### 📄 Export Beat Times")
     beat_output = "\n".join([f"{t:.3f} sec" for t in beat_times])
     st.download_button(
-        label="📅 Download beat timestamps as .txt",
+        label="🗓️ Download beat timestamps as .txt",
         data=beat_output,
         file_name="beat_timestamps.txt",
         mime="text/plain"
